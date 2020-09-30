@@ -1,0 +1,5 @@
+{
+    "endpoint": "https://test-api.blockchain.line.me",
+    "apiKey": "your API key",
+    "apiSecret": "your API secret"
+}

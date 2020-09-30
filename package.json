@@ -1,0 +1,19 @@
+{
+  "name": "lbp-signing-proxy",
+  "version": "0.0.1",
+  "description": "Unofficial request-signing HTTP proxy server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "http-proxy": "^1.18.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.3"
+  }
+}
