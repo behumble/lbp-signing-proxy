@@ -6,7 +6,10 @@
   "scripts": {
     "test": "mocha"
   },
-  "author": "",
+  "author": {
+    "name": "Alan Goo",
+    "email": "behumble@gmail.com"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "chalk": "^4.1.0",
