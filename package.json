@@ -4,6 +4,7 @@
   "description": "Unofficial request-signing HTTP proxy server",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "mocha"
   },
   "author": {
