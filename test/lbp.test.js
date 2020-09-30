@@ -69,6 +69,6 @@ describe('Example 4:Request path and request body (with arrays)', () => {
             ]
         }`
         const sig = lbp.generateSignature(nonce, timestamp, method, uri, apiSecret, body)
-        assert.strictEqual('4L5BU0Ml/ejhzTg6Du12BDdElv8zoE7XD/iyOaZ2BHJIJG0SUOuCZWXu0YaF4i4C2CFJhjZoJFsje4CJn/wyyw==', sig)
+        assert.strictEqual('vhr5c3y2PAP5rmt+4YN1ojbMnT9IkYnIIB1yvWYM9OdECB2Y11fGTLDLRybB3lLKv0kvJQMAelSkQYBKdhSXbg==', sig)
     })
 })

@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const crypto = require('crypto')
 
 exports.generateSignature = function(nonce, timestamp, method, uri, apiSecret, body) {
@@ -8,18 +9,32 @@ exports.generateSignature = function(nonce, timestamp, method, uri, apiSecret, b
         if(signTarget.indexOf('?')<0) {
             signTarget += '?'
         }
+        // TODO any way more neat?
         const objBody = JSON.parse(body)
-        const keyValueList = [] // each element is array of size 2 (0-key, 1-value)
+        const flatPair = {}     // we're going to convert objBody to flatPair
         Object.keys(objBody).forEach(key => {
-            keyValueList.push([key, objBody[key]])
+            const value = objBody[key]
+            if(Array.isArray(value)) {
+                // scan for all sub-keys
+                let allSubKeys = []
+                value.forEach(elem => {
+                    allSubKeys = _.union(allSubKeys, Object.keys(elem))
+                })
+                // now we have keys for elements. fill-in flatPair
+                value.forEach(elem => { // for each element on the array
+                    allSubKeys.forEach(subKey => {
+                        const flatKey = `${key}.${subKey}`
+                        const flatRawValue = elem[subKey] ? elem[subKey] : ''
+                        const prevFlatValue = flatPair[flatKey]
+                        const flatValue = prevFlatValue==undefined ? flatRawValue : `${prevFlatValue},${flatRawValue}`
+                        flatPair[flatKey] = flatValue
+                    })
+                })
+            } else {
+                flatPair[key] = objBody[key]
+            }
         })
-        keyValueList.sort((a, b) => {
-            if(a[0] === b[0]) return 0
-            if(a[0] < b[0]) return -1
-            return 1
-        })
-        console.log('Sorted Flat List : ', keyValueList)
-        const bodyPart = keyValueList.map(elem => `${elem[0]}=${elem[1]}`).join('&')
+        const bodyPart = Object.keys(flatPair).sort().map(key => `${key}=${flatPair[key]}`).join('&')
         signTarget += bodyPart
     }
     console.log('Sign target :', signTarget)
