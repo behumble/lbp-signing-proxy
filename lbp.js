@@ -10,7 +10,7 @@ exports.generateSignature = function(nonce, timestamp, method, uri, apiSecret, b
             signTarget += '?'
         }
         // TODO any way more neat?
-        const objBody = JSON.parse(body)
+        const objBody = body
         const flatPair = {}     // we're going to convert objBody to flatPair
         Object.keys(objBody).forEach(key => {
             const value = objBody[key]

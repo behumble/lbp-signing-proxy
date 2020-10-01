@@ -1,6 +1,7 @@
 const chalk = require('chalk')
+const express = require('express')
+const bodyParser = require('body-parser')
 const fs = require('fs')
-const http = require('http')
 const httpProxy = require('http-proxy')
 const lbp = require('./lbp')
 const log = console.log
@@ -28,30 +29,36 @@ try {
     process.exit(1)
 }
 
-const localUrlInBlue = chalk.blue(`http://localhost:${PORT}`)
-log(`${chalk.green('Request signing proxy')} on ${localUrlInBlue}`)
-
 const proxy = httpProxy.createProxyServer({
     target: config.endpoint,
     secure: false
 })
 
 proxy.on('proxyReq', (pReq, req, res, opts) => {
+    // referred to https://gist.github.com/NickNaso/96aaad34e305823b9ff6ba3909908f31
     const timestamp = new Date().getTime().toString()
     pReq.setHeader('service-api-key', config.apiKey)
     const nonce = timestamp.slice(-8)   // last 8 digits for nonce
     pReq.setHeader('nonce', nonce)
     pReq.setHeader('timestamp', timestamp)
     const uri = req.url // path + query params, if any
-    const body = req.rawBody
+    const body = req.body
     const signature = lbp.generateSignature(nonce, timestamp, req.method, uri, config.apiSecret, body)
     pReq.setHeader('signature', signature)
-    console.log('Request ', req)
+    let bodyData = JSON.stringify(req.body);
+    pReq.setHeader('Content-Type','application/json');
+    pReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+    pReq.write(bodyData)
 })
 
-const httpLogger = morgan('combined')
-
-http.createServer((req, res) => {
-    httpLogger(req, res, err => { if(err) console.error(err) })
+const app = express()
+app.use(morgan('combined'))
+app.use(bodyParser.json())
+app.use((req, res) => {
+    console.log('index:53 - body ',req.body)
     proxy.web(req, res)
-}).listen(PORT)
+})
+app.listen(PORT, () => {
+    const localUrlInBlue = chalk.blue(`http://localhost:${PORT}`)
+    log(`${chalk.green('Request signing proxy')} on ${localUrlInBlue}`)
+})
