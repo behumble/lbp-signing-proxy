@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const chalk = require('chalk')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -37,7 +39,6 @@ const proxy = httpProxy.createProxyServer({
 proxy.on('proxyReq', (pReq, req, res, opts) => {
     // referred to https://gist.github.com/NickNaso/96aaad34e305823b9ff6ba3909908f31
     const timestamp = new Date().getTime().toString()
-    pReq.setHeader('service-api-key', config.apiKey)
     const nonce = timestamp.slice(-8)   // last 8 digits for nonce
     pReq.setHeader('nonce', nonce)
     pReq.setHeader('timestamp', timestamp)
