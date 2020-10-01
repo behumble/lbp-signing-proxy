@@ -55,7 +55,6 @@ const app = express()
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use((req, res) => {
-    console.log('index:53 - body ',req.body)
     proxy.web(req, res)
 })
 app.listen(PORT, () => {
