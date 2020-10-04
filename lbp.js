@@ -8,6 +8,8 @@ exports.generateSignature = function(nonce, timestamp, method, uri, apiSecret, b
     if(body) {
         if(signTarget.indexOf('?')<0) {
             signTarget += '?'
+        } else {
+            signTarget += '&'
         }
         // TODO any way more neat?
         const objBody = body
