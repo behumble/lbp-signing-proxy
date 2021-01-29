@@ -5,7 +5,7 @@ exports.generateSignature = function(nonce, timestamp, method, uri, apiSecret, b
     // https://docs-blockchain.line.biz/api-guide/Authentication
     var signTarget = `${nonce}${timestamp}${method}${uri}`
 
-    if(body) {
+    if(Object.keys(body).length != 0) {
         if(signTarget.indexOf('?')<0) {
             signTarget += '?'
         } else {
