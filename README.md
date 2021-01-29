@@ -20,7 +20,7 @@ npm start
 
 ### Configuration file
 
-`$USER_HOME/lbp-singing-proxy.json` is required.
+`$USER_HOME/lbp-signing-proxy.json` is required.
 You can easily copy `lbp-singing-proxy.sample.json` and edit values for like `apiSecret` and `endpoint`
 
 ### Notes
