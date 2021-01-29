@@ -1,3 +1,6 @@
+# DEPRECATED
+
+It's recommended to use JavaScript or Java SDK. check out [here](https://docs-blockchain.line.biz/community-resources/)
 # (**Unofficial**) Signing proxy for LINE Blockchain Platform
 
 A simple HTTP proxy server to automate [request signing](https://docs-blockchain.line.biz/api-guide/Authentication)
