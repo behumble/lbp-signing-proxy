@@ -33,6 +33,7 @@ try {
 
 const proxy = httpProxy.createProxyServer({
     target: config.endpoint,
+    changeOrigin: true,
     secure: false
 })
 
